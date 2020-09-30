@@ -3,7 +3,7 @@ const Joi = require('joi');
 const express = require('express');
 const app = express();
 
-const ninja = require('./ninja');
+const ninja = require('./controller/ninja');
 const data = require('./model/database');
 
 

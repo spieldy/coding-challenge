@@ -4,7 +4,7 @@
  * and the main app.js
  */
 
- const database = require('./model/database');
+ const database = require('../model/database');
 
 function ninjaCat(str1, str2) {
    if (str1 !== "") str1 = str1.concat(" ");
