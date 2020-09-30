@@ -1,8 +1,16 @@
 const Joi = require('joi');
+
 const express = require('express');
 const app = express();
+
+const ninja = require('./ninja');
+const data = require('./model/database');
+
+
+
 app.use(express.json());
 
+// ROUTES
 // Home 
 app.get('/', (req, res) => {
     res.send('Ninjify home');
@@ -19,6 +27,9 @@ app.get('/ninjify', (req, res) => {
     const result = validateBuzz(buzz);
     if (result.error) return res.status(400).send(result.error.details[0].message);
 
+    const ninjaName = ninja.ninjify(buzz.words);
+    console.log('final ninja name');
+    console.log(ninjaName);
     res.send(result);
 });
 
