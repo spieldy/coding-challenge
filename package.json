@@ -1,0 +1,23 @@
+{
+  "name": "ninjify",
+  "version": "1.0.0",
+  "description": "Take buzzwords as input and generate a ninja name",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spieldy/coding-challenge.git"
+  },
+  "keywords": [
+    "ninja",
+    "name"
+  ],
+  "author": "Jeremy Spieldenner <spieldy@protonmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spieldy/coding-challenge/issues"
+  },
+  "homepage": "https://github.com/spieldy/coding-challenge#readme"
+}
