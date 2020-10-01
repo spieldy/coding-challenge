@@ -29,6 +29,8 @@ app.set("view engine", "ejs");
 randommer.initSurnames();
 const konami = process.env.KONAMI;
 
+data.checkBuzz("php");
+
 // ROUTES
 // Home
 app.get("/", (req, res) => {
