@@ -1,33 +1,41 @@
-const { json } = require('express');
-const fetch = require('node-fetch');
-const querrystring = require ('querystring');
+/**
+ * This file serve as controller to generate a new ninja name
+ * It will request on the randommer api
+ */
 
-const host = 'http://randommer.io/api/';
-const headers = {
-        'x-api-key': "2d4cefc346864a33b176f69b25805890"
-};
+const fetch = require("node-fetch");
+const querrystring = require("querystring");
+const config = require("../config");
+
+const host = "http://randommer.io/api/";
+
+// Headers in separate file: config.js
+const headers = config.header;
 
 async function requestSurname() {
-    const param = {
-        nameType: 'surname',
-        quantity: '1'
-    }
-    const path = 'Name';
+  const param = {
+    nameType: "surname",
+    quantity: "1",
+  };
+  const path = "Name";
 
-    const url =host + path + '?' + querrystring.stringify(param);
+  const url = host + path + "?" + querrystring.stringify(param);
 
-    let result = await fetch(url, { method: 'GET', headers: headers})
+  const result = await fetch(url, { method: "GET", headers: headers })
     .then((res) => {
-        console.log(res.status);
-        if (res.status === 200) return res.json();
-        return null;
+      if (res.status === 200) return res.json();
+      return false;
     })
     .then((json) => {
-        if (json) return json[0];
-        return null;
+      if (json) return json[0];
+      return false;
     });
 
-    return result;
+  const data = result;
+  // The data is what we want here
+  console.log("randommer result");
+  console.log(data);
+  return data;
 }
 
 module.exports.requestSurname = requestSurname;
