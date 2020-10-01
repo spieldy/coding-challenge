@@ -4,7 +4,7 @@
  * and the main app.js
  */
 
-const database = require("../model/database");
+const database = require("../models/database");
 const randommer = require("./randommer");
 
 function ninjaCat(str1, str2) {
