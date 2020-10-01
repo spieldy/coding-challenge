@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ninjify</title>
+  </head>
+  <body>
+    <h1>Ninjify buzzwords</h1>
+
+    <p>Entrez une liste de buzzwords séparées par des ',':</p>
+    <form action="/ninjify" method="get">
+      <input type="text" name="buzz" />
+      <input type="submit" />
+    </form>
+
+    <h2>Nom de ninja:</h2>
+    <p><%= ninjaName %></p>
+  </body>
+</html>

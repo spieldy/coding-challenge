@@ -1,7 +1,4 @@
-var database = [
-  { buzz: "php", ninja: "shadow" },
-  { buzz: "sass", ninja: "sakai" },
-];
+var database = [];
 
 function checkBuzz(word) {
   const result = database.find((d) => d.buzz === word);

@@ -1,22 +1,24 @@
 const Joi = require("joi");
 
 const express = require("express");
-const app = express();
 
 const ninja = require("./controller/ninja");
 const randommer = require("./controller/randommer");
 const data = require("./model/database");
 
+const app = express();
 app.use(express.json());
 
-// A DEPLACER DANS HOME QUAND IL Y AURA LA VUE + TEST DE REUSSITE
+app.set("view engine", "ejs");
+
+// Create the first pool of requested name on the server
 const init = randommer.initSurnames();
 
 // ROUTES
 // Home
 app.get("/", (req, res) => {
-  res.send("Ninjify home");
   const init = randommer.initSurnames();
+  res.render("index");
 });
 
 // Ninjify route
@@ -26,6 +28,8 @@ app.get("/ninjify", (req, res) => {
 
   // Array of the different buzzwords all lowercase
   var words = req.query.buzz.split(",").map(function (v) {
+    // Remove space to normalize
+    v = v.replace(/\s+/g, "");
     return v.toLowerCase();
   });
   const buzz = { words: words };
@@ -38,7 +42,8 @@ app.get("/ninjify", (req, res) => {
   const ninjaName = ninja.ninjify(buzz.words);
   console.log("final ninja name");
   console.log(ninjaName);
-  res.send(result);
+
+  res.render("index", { ninjaName: ninjaName });
 });
 
 function validateBuzz(buzz) {
