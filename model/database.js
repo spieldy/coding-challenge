@@ -1,13 +1,27 @@
 var database = [
-    { buzz: 'php', ninja: 'shadow'},
-    { buzz: 'sass', ninja: 'sakai'}
+  { buzz: "php", ninja: "shadow" },
+  { buzz: "sass", ninja: "sakai" },
 ];
 
-function check(word) {
-    const result = database.find(d => d.buzz === word);
-    return result;
+function checkBuzz(word) {
+  const result = database.find((d) => d.buzz === word);
+  return result;
 }
 
+function checkNinja(name) {
+  const result = database.find((d) => d.ninja === name);
+  return result;
+}
+
+function save(word, name) {
+  const entry = {
+    buzz: word,
+    ninja: name,
+  };
+  this.database.push(entry);
+}
 
 module.exports.database = database;
-module.exports.check = check;
+module.exports.checkBuzz = checkBuzz;
+module.exports.checkNinja = checkNinja;
+module.exports.save = save;

@@ -1,33 +1,67 @@
-const { json } = require('express');
-const fetch = require('node-fetch');
-const querrystring = require ('querystring');
+/**
+ * This file serve as controller to generate a new ninja name
+ * It will request on the randommer api
+ */
 
-const host = 'http://randommer.io/api/';
-const headers = {
-        'x-api-key': "2d4cefc346864a33b176f69b25805890"
+const fetch = require("node-fetch");
+const querrystring = require("querystring");
+const config = require("../config");
+
+const host = "http://randommer.io/api/";
+
+// Headers in separate file: config.js
+const headers = config.header;
+
+var surnames = [];
+
+Array.prototype.unique = function () {
+  var array = this.concat();
+  for (var i = 0; i < array.length; ++i) {
+    for (var j = i + 1; j < array.length; ++j) {
+      if (array[i] === array[j]) array.splice(j--, 1);
+    }
+  }
+
+  return array;
 };
 
-async function requestSurname() {
-    const param = {
-        nameType: 'surname',
-        quantity: '1'
-    }
-    const path = 'Name';
+function initSurnames() {
+  var test = true;
+  const param = {
+    nameType: "surname",
+    quantity: "100",
+  };
+  // Path defined here because the api offer other possibility
+  const path = "Name";
 
-    const url =host + path + '?' + querrystring.stringify(param);
+  const url = host + path + "?" + querrystring.stringify(param);
 
-    let result = await fetch(url, { method: 'GET', headers: headers})
+  const result = fetch(url, { method: "GET", headers: headers })
     .then((res) => {
-        console.log(res.status);
-        if (res.status === 200) return res.json();
-        return null;
+      if (res.status === 200) return res.json();
+      test = false;
+      return false;
     })
     .then((json) => {
-        if (json) return json[0];
-        return null;
+      if (json) {
+        surnames = surnames.concat(json).unique();
+      }
+      test = false;
+      return false;
     });
 
-    return result;
+  return test;
 }
 
-module.exports.requestSurname = requestSurname;
+function getSurname() {
+  // 100 is an arbitrary value
+  console.log(surnames.length);
+  if (surnames.length === 0 || surnames.length < 100) {
+    const result = initSurnames();
+    if (!result) return false;
+  }
+  return surnames.pop();
+}
+
+module.exports.initSurnames = initSurnames;
+module.exports.getSurname = getSurname;
