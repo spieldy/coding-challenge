@@ -29,7 +29,7 @@ function initSurnames() {
   var test = true;
   const param = {
     nameType: "surname",
-    quantity: "100",
+    quantity: "200",
   };
   // Path defined here because the api offer other possibility
   const path = "Name";
@@ -55,7 +55,6 @@ function initSurnames() {
 
 function getSurname() {
   // 100 is an arbitrary value
-  console.log(surnames.length);
   if (surnames.length === 0 || surnames.length < 100) {
     const result = initSurnames();
     if (!result) return false;

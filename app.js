@@ -1,10 +1,8 @@
-const Joi = require("joi");
-
 const express = require("express");
-
-const ninja = require("./controller/ninja");
-const randommer = require("./controller/randommer");
-const data = require("./model/database");
+const Joi = require("joi");
+const ninja = require("./controllers/ninja");
+const randommer = require("./controllers/randommer");
+const data = require("./models/database");
 
 const app = express();
 app.use(express.json());
@@ -18,7 +16,7 @@ const init = randommer.initSurnames();
 // Home
 app.get("/", (req, res) => {
   const init = randommer.initSurnames();
-  res.render("index");
+  res.render("index", { ninjaName: "" });
 });
 
 // Ninjify route
@@ -40,8 +38,6 @@ app.get("/ninjify", (req, res) => {
     return res.status(400).send(result.error.details[0].message);
 
   const ninjaName = ninja.ninjify(buzz.words);
-  console.log("final ninja name");
-  console.log(ninjaName);
 
   res.render("index", { ninjaName: ninjaName });
 });
