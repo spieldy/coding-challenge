@@ -11,6 +11,7 @@ app.set("view engine", "ejs");
 
 // Create the first pool of requested name on the server
 const init = randommer.initSurnames();
+const konami = "up,up,down,down,left,right,left,right,b,a,";
 
 // ROUTES
 // Home
@@ -30,6 +31,7 @@ app.get("/ninjify", (req, res) => {
     v = v.replace(/\s+/g, "");
     return v.toLowerCase();
   });
+
   const buzz = { words: words };
 
   // Input validation
@@ -39,7 +41,11 @@ app.get("/ninjify", (req, res) => {
 
   const ninjaName = ninja.ninjify(buzz.words);
 
-  res.render("index", { ninjaName: ninjaName });
+  if (checkIfKonami(words, res)) {
+    res.redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+  } else {
+    res.render("index", { ninjaName: ninjaName });
+  }
 });
 
 function validateBuzz(buzz) {
@@ -48,6 +54,15 @@ function validateBuzz(buzz) {
   });
 
   return schema.validate(buzz);
+}
+
+function checkIfKonami(words, res) {
+  var test = "";
+  words.forEach((element) => {
+    test = test.concat(element);
+    test = test.concat(",");
+  });
+  return test === konami;
 }
 
 // Use environement variable or assign one
