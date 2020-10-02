@@ -1,8 +1,10 @@
+const Joi = require("joi");
+
 const express = require("express");
 
-const ninja = require("./controllers/ninja");
-const randommer = require("./controllers/randommer");
-const data = require("./models/database");
+const ninja = require("./controller/ninja");
+const randommer = require("./controller/randommer");
+const data = require("./model/database");
 
 const app = express();
 app.use(express.json());
@@ -11,8 +13,6 @@ app.set("view engine", "ejs");
 
 // Create the first pool of requested name on the server
 const init = randommer.initSurnames();
-
-data.checkBuzz("php");
 
 // ROUTES
 // Home
