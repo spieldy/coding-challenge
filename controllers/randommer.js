@@ -12,8 +12,10 @@ const host = "http://randommer.io/api/";
 // Headers in separate file: config.js
 const headers = config.header;
 
+// Array of all the surnames available
 var surnames = [];
 
+// Define prototype to concat without duplicates
 Array.prototype.unique = function () {
   var array = this.concat();
   for (var i = 0; i < array.length; ++i) {
@@ -25,12 +27,14 @@ Array.prototype.unique = function () {
   return array;
 };
 
+// Fill surnames[] with a request to randommer API
 function initSurnames() {
   var test = true;
   const param = {
     nameType: "surname",
     quantity: "200",
   };
+
   // Path defined here because the api offer other possibility
   const path = "Name";
 

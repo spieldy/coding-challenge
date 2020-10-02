@@ -28,6 +28,7 @@ Voici la liste grossière des tâches:
 ## Problèmes rencontrés
 
 Le principal problème rencontré a été lorsque j'effectue la requête vers l'API Randommer afin d'obtenir un nom. Je voulais à la base faire une requête renvoyant un nom généré dès que le buzzwords n'avait pas encore était enregistré dans la base de données. J'ai n'ai pas réussi à passer mon resultat de la requête faite avec 'fetch' au contrôleur gérant la ninjification du à l'asynchronicité du langage. J'ai laissé le problème dans la branche 'async-request-name'. J'ai donc contourné ce problème en ayant une autre approche et en me servant des capacités de l'API Randommer en me créant un tableau de nom et en le gérant côté serveur.
+Etant donné la première prise en main de l'outil, la gestion des erreurs peut être à améliorer. Il n'y a pas de consistence dans la façon de procéder, mais les erreurs prioritaires sont gérées.
 
 ## Analyse
 
