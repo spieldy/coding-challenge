@@ -1,10 +1,25 @@
 const express = require("express");
 const Joi = require("joi");
+const path = require("path");
 const ninja = require("./controllers/ninja");
 const randommer = require("./controllers/randommer");
 const data = require("./models/database");
 
 const app = express();
+
+app.use(
+  "/css",
+  express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
+);
+app.use(
+  "/js",
+  express.static(path.join(__dirname, "node_modules/bootstrap/dist/js"))
+);
+app.use(
+  "/js",
+  express.static(path.join(__dirname, "node_modules/jquery/dist"))
+);
+app.use(express.static("public"));
 app.use(express.json());
 
 app.set("view engine", "ejs");
@@ -17,7 +32,7 @@ const konami = "up,up,down,down,left,right,left,right,b,a,";
 // Home
 app.get("/", (req, res) => {
   const init = randommer.initSurnames();
-  res.render("index", { ninjaName: "" });
+  res.render("index", { ninjaName: "", konami: false, error: null });
 });
 
 // Ninjify route
@@ -32,25 +47,34 @@ app.get("/ninjify", (req, res) => {
     return v.toLowerCase();
   });
 
-  const buzz = { words: words };
-
-  // Input validation
-  const result = validateBuzz(buzz);
-  if (result.error)
-    return res.status(400).send(result.error.details[0].message);
-
-  const ninjaName = ninja.ninjify(buzz.words);
-
   if (checkIfKonami(words, res)) {
-    res.redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    res.render("index", { ninjaName: "surprise", konami: true, error: null });
   } else {
-    res.render("index", { ninjaName: ninjaName });
+    const buzz = { words: words };
+
+    // Input validation
+    const result = validateBuzz(buzz);
+    if (result.error)
+      return res.status(400).render("index", {
+        ninjaName: "",
+        konami: false,
+        error: result.error.details[0].message,
+      });
+
+    const ninjaName = ninja.ninjify(buzz.words);
+    res.render("index", { ninjaName: ninjaName, konami: false, error: null });
   }
 });
 
 function validateBuzz(buzz) {
   const schema = Joi.object({
-    words: Joi.array().items(Joi.string().alphanum()),
+    words: Joi.array().items(
+      Joi.string().alphanum().messages({
+        "string.empty": "Aucun Buzzword ne peut être vide",
+        "string.alphanum":
+          "Buzzword doit être constitué de lettres et de chiffres uniquement",
+      })
+    ),
   });
 
   return schema.validate(buzz);

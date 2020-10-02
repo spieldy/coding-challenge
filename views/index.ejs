@@ -3,17 +3,44 @@
   <head>
     <meta charset="utf-8" />
     <title>Ninjify</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
   </head>
-  <body>
-    <h1>Ninjify buzzwords</h1>
+  <body class="text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1 class="title">Ninjify</h1>
+        </div>
+      </div>
+      <% if (error) { %>
+      <div class="alert alert-warning" role="alert"><%= error %></div>
+      <% } %>
 
-    <p>Entrez une liste de buzzwords séparées par des ',':</p>
-    <form action="/ninjify" method="get">
-      <input type="text" name="buzz" />
-      <input type="submit" />
-    </form>
+      <div class="ninjify-form">
+        <p>Entrez une liste de buzzwords séparées par des ',':</p>
+        <form action="/ninjify" method="get">
+          <input type="text" name="buzz" />
+          <input type="submit" class="btn btn-danger" />
+        </form>
+      </div>
 
-    <h2>Nom de ninja:</h2>
-    <p><%= ninjaName %></p>
+      <% if (ninjaName !== '') { %>
+      <h3>Nom de ninja</h3>
+      <% } %> <% if(konami) { %>
+      <!-- Rick Rolled hardcoded so you cannot see it in app.js -->
+      <p>Rick Rolled Ninja</p>
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?start=42"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+      <% } else { %>
+      <p><%= ninjaName %></p>
+      <% } %>
+    </div>
   </body>
 </html>
