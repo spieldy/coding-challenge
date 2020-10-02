@@ -5,7 +5,7 @@
 J'ai décidé de faire ce challenge en NodeJs pour plusieurs raisons.
 Premièrement, je n'avais pas envie d'utiliser un langage comme le PHP, car pour pouvoir faire un prototype de cette taille, l'utilisation d'un framework aurait été une bonne solution si on souhaite maintenir le projet et le faire évoluer. L'incovénient est qu'il aurait fallu mettre tout le framework en place, ainsi qu'un serveur local, etc. De plus, je suis plus à l'aise avec le PHP et je voulais montrer que j'étais capable de m'adapter rapidement.
 Une deuxième solution aurait pu être en React, cependant cela est une technologie vraiment différente de ce à quoi j'avais l'habitude de travailler, et j'ai donc décidé de le remettre à plus tard. J'ai préféré jouer la sécurité sur ce coup afin de m'assurer d'avoir un rendu final fonctionnel.
-NodeJS est venu naturellement comme solution. J'avais l'envie de faire un projet en JavaScript depuis quelques temps afin de me casser les temps comme il faut dessus (c'est chose faite avec une première rencontre avec les Promises). NodeJS facilite grandement le départ d'un projet car elle ne demande pas grand chose. Cependant, il nous force à adopter une structure par nous même sinon cela peut vite devenir un amas de fichier à la racine.
+NodeJS est venu naturellement comme solution. J'avais l'envie de faire un projet en JavaScript depuis quelques temps afin de me casser les dents comme il faut dessus (c'est chose faite avec une première rencontre avec les Promises). NodeJS facilite grandement le départ d'un projet car elle ne demande pas grand chose. Cependant, il nous force à adopter une structure par nous même sinon cela peut vite devenir un amas de fichier à la racine.
 
 ## Expérience en NodeJS
 
@@ -23,7 +23,7 @@ Voici la liste grossière des tâches:
 - Faire une requête de nom à une API de génération (Randommer.io)
 - Faire une interface simple
 - Vérifier la normalisation des données, et certains cas d'erreurs.
-- Créer une base de données en MongoDB (pour une maintenabilité plus adéquate des données)
+- Créer une base de données en MongoDB (pour une maintenabilité plus adéquate des données) _Tâches en cours_
 
 ## Problèmes rencontrés
 
