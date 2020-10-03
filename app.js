@@ -50,6 +50,8 @@ app.get("/ninjify", (req, res) => {
     return v.toLowerCase();
   });
 
+  const buzz = { words: words };
+
   if (checkIfKonami(words)) {
     res.render("index", { ninjaName: "surprise", konami: true, error: null });
   } else {
