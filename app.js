@@ -6,6 +6,8 @@ const ninja = require("./controllers/ninja");
 const randommer = require("./controllers/randommer");
 const data = require("./models/database");
 
+const MongoClient = require("mongodb").MongoClient;
+
 const app = express();
 
 app.use(
@@ -29,47 +31,72 @@ app.set("view engine", "ejs");
 randommer.initSurnames();
 const konami = process.env.KONAMI;
 
-data.checkBuzz("php");
+let db;
 
-// ROUTES
-// Home
-app.get("/", (req, res) => {
-  randommer.initSurnames();
-  res.render("index", { ninjaName: "", konami: false, error: null });
-});
+console.log(`Connecting to MongoDB: ${process.env.DB_URL}`);
+MongoClient.connect(process.env.DB_URL, { useUnifiedTopology: true })
+  .then((client, err) => {
+    if (err) return console.log(err);
 
-// Ninjify route
-app.get("/ninjify", (req, res) => {
-  if (!req.query.buzz)
-    return res.status(400).send("At least one buzzword is required");
+    // Storing a reference to the database so you can use it later
+    db = client.db(process.env.DB_NAME);
 
-  // Array of the different buzzwords all lowercase
-  var words = req.query.buzz.split(",").map(function (v) {
-    // Remove space to normalize
-    v = v.replace(/\s+/g, "");
-    return v.toLowerCase();
-  });
+    console.log(`Connected MongoDB: ${process.env.DB_URL}`);
+    console.log(`Database: ${process.env.DB_NAME}`);
 
-  const buzz = { words: words };
+    // ROUTES
+    // Home
+    app.get("/", (req, res) => {
+      randommer.initSurnames();
+      res.render("index", { ninjaName: "", konami: false, error: null });
+    });
 
-  if (checkIfKonami(words)) {
-    res.render("index", { ninjaName: "surprise", konami: true, error: null });
-  } else {
-    const buzz = { words: words };
+    // Ninjify route
+    app.get("/ninjify", (req, res) => {
+      if (!req.query.buzz)
+        return res.status(400).send("At least one buzzword is required");
 
-    // Input validation
-    const result = validateBuzz(buzz);
-    if (result.error)
-      return res.status(400).render("index", {
-        ninjaName: "",
-        konami: false,
-        error: result.error.details[0].message,
+      // Array of the different buzzwords all lowercase
+      var words = req.query.buzz.split(",").map(function (v) {
+        // Remove space to normalize
+        v = v.replace(/\s+/g, "");
+        return v.toLowerCase();
       });
 
-    const ninjaName = ninja.ninjify(buzz.words);
-    res.render("index", { ninjaName: ninjaName, konami: false, error: null });
-  }
-});
+      const buzz = { words: words };
+
+      if (checkIfKonami(words)) {
+        res.render("index", {
+          ninjaName: "surprise",
+          konami: true,
+          error: null,
+        });
+      } else {
+        const buzz = { words: words };
+
+        // Input validation
+        const result = validateBuzz(buzz);
+        if (result.error)
+          return res.status(400).render("index", {
+            ninjaName: "",
+            konami: false,
+            error: result.error.details[0].message,
+          });
+
+        const ninjaName = ninja.ninjify(buzz.words, db);
+        res.render("index", {
+          ninjaName: ninjaName,
+          konami: false,
+          error: null,
+        });
+      }
+    });
+
+    // Use environement variable or assign one
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => console.log(`Listening on ${port}...`));
+  })
+  .catch(console.error);
 
 function validateBuzz(buzz) {
   const schema = Joi.object({
@@ -93,7 +120,3 @@ function checkIfKonami(words) {
   });
   return test === konami;
 }
-
-// Use environement variable or assign one
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on ${port}...`));

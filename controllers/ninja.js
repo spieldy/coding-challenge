@@ -15,22 +15,25 @@ function ninjaCat(str1, str2) {
 
 // Takes an array of buzzwords as input
 // return the ninja name
-function ninjify(buzz) {
+async function ninjify(buzz, db) {
   var ninjaName = "";
   buzz.forEach((element) => {
-    const result = database.checkBuzz(element);
+    const result = database.checkBuzz(element, db);
     if (!result) {
+      console.log("empty");
       var name = randommer.getSurname();
-      var test = database.checkNinja(name);
+      var test = database.checkNinja(name, db);
       if (test !== undefined) {
         while (test !== undefined) {
           name = randommer.getSurname();
-          test = database.checkNinja(name);
+          test = database.checkNinja(name, db);
         }
       }
-      database.save(element, name);
+      database.save(element, name, db);
       ninjaName = ninjaCat(ninjaName, name);
     } else {
+      console.log("not empty");
+      console.log(result);
       ninjaName = ninjaCat(ninjaName, result.ninja);
     }
   });
