@@ -5,12 +5,13 @@
 
 const fetch = require("node-fetch");
 const querrystring = require("querystring");
-const config = require("../config");
 
 const host = "http://randommer.io/api/";
 
 // Headers in separate file: config.js
-const headers = config.header;
+const headers = {
+  "x-api-key": process.env.X_API_KEY,
+};
 
 // Array of all the surnames available
 var surnames = [];
@@ -40,7 +41,7 @@ function initSurnames() {
 
   const url = host + path + "?" + querrystring.stringify(param);
 
-  const result = fetch(url, { method: "GET", headers: headers })
+  fetch(url, { method: "GET", headers: headers })
     .then((res) => {
       if (res.status === 200) return res.json();
       test = false;
@@ -54,6 +55,7 @@ function initSurnames() {
       return false;
     });
 
+  if (!test) console.log("Ninja Name list failed initialisation");
   return test;
 }
 

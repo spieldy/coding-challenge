@@ -1,6 +1,7 @@
 const express = require("express");
 const Joi = require("joi");
 const path = require("path");
+require("dotenv").config();
 const ninja = require("./controllers/ninja");
 const randommer = require("./controllers/randommer");
 const data = require("./models/database");
@@ -25,13 +26,13 @@ app.use(express.json());
 app.set("view engine", "ejs");
 
 // Create the first pool of requested name on the server
-const init = randommer.initSurnames();
-const konami = "up,up,down,down,left,right,left,right,b,a,";
+randommer.initSurnames();
+const konami = process.env.KONAMI;
 
 // ROUTES
 // Home
 app.get("/", (req, res) => {
-  const init = randommer.initSurnames();
+  randommer.initSurnames();
   res.render("index", { ninjaName: "", konami: false, error: null });
 });
 
@@ -47,7 +48,7 @@ app.get("/ninjify", (req, res) => {
     return v.toLowerCase();
   });
 
-  if (checkIfKonami(words, res)) {
+  if (checkIfKonami(words)) {
     res.render("index", { ninjaName: "surprise", konami: true, error: null });
   } else {
     const buzz = { words: words };
@@ -80,7 +81,7 @@ function validateBuzz(buzz) {
   return schema.validate(buzz);
 }
 
-function checkIfKonami(words, res) {
+function checkIfKonami(words) {
   var test = "";
   words.forEach((element) => {
     test = test.concat(element);

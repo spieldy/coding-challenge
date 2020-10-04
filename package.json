@@ -23,6 +23,7 @@
   "homepage": "https://github.com/spieldy/coding-challenge#readme",
   "dependencies": {
     "bootstrap": "^4.5.2",
+    "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "joi": "^17.2.1",
