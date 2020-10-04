@@ -39,7 +39,11 @@ app.get("/", (req, res) => {
 // Ninjify route
 app.get("/ninjify", (req, res) => {
   if (!req.query.buzz)
-    return res.status(400).send("At least one buzzword is required");
+    return res.status(400).render("index", {
+      ninjaName: "",
+      konami: false,
+      error: "Au moins 1 buzzword est requis",
+    });
 
   // Array of the different buzzwords all lowercase
   var words = req.query.buzz.split(",").map(function (v) {
